@@ -3,8 +3,29 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
+
+    <TextView android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="@string/beast_objective_label"
+              style="?android:listSeparatorTextViewStyle"/>
+
     <EditText android:id="@+id/beast_objective"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:hint="@string/beast_objective_hint"/>
+
+    <TextView android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="@string/beast_details_label"
+              style="?android:listSeparatorTextViewStyle"/>
+
+    <TextView android:id="@+id/beast_created_at"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="Some date"/>
+
+    <CheckBox android:id="@+id/beasted"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="@string/beasted_label"/>
 </LinearLayout>
