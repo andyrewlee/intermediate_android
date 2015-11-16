@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Beast List</string>
+    <string name="beast_objective_hint">What do you want to beast?</string>
+</resources>
