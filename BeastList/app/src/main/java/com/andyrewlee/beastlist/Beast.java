@@ -1,6 +1,7 @@
 package com.andyrewlee.beastlist;
 
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import java.util.Date;
 import java.util.ArrayList;
@@ -50,31 +51,5 @@ public class Beast {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public static ArrayList<Beast> all() {
-        ArrayList<Beast> beasts = new ArrayList<>();
-
-        for(int i = 0; i < 100; i++) {
-            Beast beast = new Beast();
-            beast.setObjective("Beast # " + i);
-            beast.setBeasted(i % 2 == 0);
-            beasts.add(beast);
-        }
-
-        return beasts;
-    }
-
-    @Nullable
-    public static Beast find(UUID id) {
-        ArrayList<Beast> beasts = Beast.all();
-
-        for(Beast beast: beasts) {
-            if(beast.getId().equals(id)) {
-                return beast;
-            }
-        }
-
-        return null;
     }
 }

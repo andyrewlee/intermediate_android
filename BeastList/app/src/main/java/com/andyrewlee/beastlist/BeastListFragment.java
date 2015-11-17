@@ -1,5 +1,7 @@
 package com.andyrewlee.beastlist;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by dev1 on 11/16/15.
@@ -34,7 +37,9 @@ public class BeastListFragment extends Fragment {
     }
 
     private void updateUI() {
-        List<Beast> beasts = Beast.all();
+        BeastsFactory beastsFactory = BeastsFactory.get(getActivity());
+        List<Beast> beasts = beastsFactory.all();
+
         adapter = new BeastAdapter(beasts);
         beastListRecyclerView.setAdapter(adapter);
     }
@@ -66,6 +71,8 @@ public class BeastListFragment extends Fragment {
         @Override
         public void onClick(View v) {
             Log.d("BeastHolder", beast.getObjective());
+            Intent intent = BeastDetailActivity.newIntent(getActivity(), beast.getId());
+            startActivity(intent);
         }
     }
 
