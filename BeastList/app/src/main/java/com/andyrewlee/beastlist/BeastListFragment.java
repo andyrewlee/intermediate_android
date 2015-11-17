@@ -36,12 +36,22 @@ public class BeastListFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
+    }
+
     private void updateUI() {
         BeastsFactory beastsFactory = BeastsFactory.get(getActivity());
         List<Beast> beasts = beastsFactory.all();
 
-        adapter = new BeastAdapter(beasts);
-        beastListRecyclerView.setAdapter(adapter);
+        if(adapter == null) {
+            adapter = new BeastAdapter(beasts);
+            beastListRecyclerView.setAdapter(adapter);
+        } else {
+            adapter.notifyDataSetChanged();
+        }
     }
 
     private class BeastHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
