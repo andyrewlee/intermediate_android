@@ -25,11 +25,20 @@ public class BeastDetailFragment extends Fragment {
     private TextView createdAtTextView;
     private CheckBox beastedCheckBox;
 
+    public static BeastDetailFragment newInstance(UUID beastId) {
+        Bundle args = new Bundle();
+        args.putSerializable("beastId", beastId);
+
+        BeastDetailFragment fragment = new BeastDetailFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        UUID beastId = (UUID) getActivity().getIntent().getSerializableExtra("beastId");
+        UUID beastId = (UUID) getArguments().getSerializable("beastId");
         beast = BeastsFactory.get(getActivity()).find(beastId);
     }
 

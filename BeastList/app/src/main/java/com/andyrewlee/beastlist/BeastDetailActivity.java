@@ -12,7 +12,8 @@ import java.util.UUID;
 public class BeastDetailActivity extends SingleFragmentActivity {
     @Override
     protected Fragment createFragment() {
-        return new BeastDetailFragment();
+        UUID beastId = (UUID) getIntent().getSerializableExtra("beastId");
+        return BeastDetailFragment.newInstance(beastId);
     }
 
     public static Intent newIntent(Context packageContext, UUID beastId) {
