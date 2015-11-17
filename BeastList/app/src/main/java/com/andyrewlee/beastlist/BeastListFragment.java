@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.List;
@@ -37,11 +38,26 @@ public class BeastListFragment extends Fragment {
     }
 
     private class BeastHolder extends RecyclerView.ViewHolder {
-        public TextView objectiveTextView;
+        private TextView objectiveTextView;
+        private TextView createdAtTextView;
+        private CheckBox beastedCheckBox;
+
+        private Beast beast;
 
         public BeastHolder(View itemView) {
             super(itemView);
-            objectiveTextView = (TextView) itemView;
+
+            objectiveTextView = (TextView) itemView.findViewById(R.id.cell_beast_objective);
+            createdAtTextView = (TextView) itemView.findViewById(R.id.cell_beast_created_at);
+            beastedCheckBox = (CheckBox) itemView.findViewById(R.id.cell_beasted_check_box);
+        }
+
+        public void bindBeast(Beast beast) {
+            this.beast = beast;
+
+            objectiveTextView.setText(beast.getObjective());
+            createdAtTextView.setText(beast.getCreatedAt().toString());
+            beastedCheckBox.setChecked(beast.isBeasted());
         }
     }
 
@@ -56,14 +72,14 @@ public class BeastListFragment extends Fragment {
         public BeastHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
 
-            View view = layoutInflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+            View view = layoutInflater.inflate(R.layout.cell_beast, parent, false);
             return new BeastHolder(view);
         }
 
         @Override
         public void onBindViewHolder(BeastHolder holder, int position) {
             Beast beast = beasts.get(position);
-            holder.objectiveTextView.setText(beast.getObjective());
+            holder.bindBeast(beast);
         }
 
         @Override
