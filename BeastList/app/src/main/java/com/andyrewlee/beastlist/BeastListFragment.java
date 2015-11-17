@@ -5,11 +5,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -37,7 +39,7 @@ public class BeastListFragment extends Fragment {
         beastListRecyclerView.setAdapter(adapter);
     }
 
-    private class BeastHolder extends RecyclerView.ViewHolder {
+    private class BeastHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView objectiveTextView;
         private TextView createdAtTextView;
         private CheckBox beastedCheckBox;
@@ -46,6 +48,7 @@ public class BeastListFragment extends Fragment {
 
         public BeastHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
 
             objectiveTextView = (TextView) itemView.findViewById(R.id.cell_beast_objective);
             createdAtTextView = (TextView) itemView.findViewById(R.id.cell_beast_created_at);
@@ -58,6 +61,11 @@ public class BeastListFragment extends Fragment {
             objectiveTextView.setText(beast.getObjective());
             createdAtTextView.setText(beast.getCreatedAt().toString());
             beastedCheckBox.setChecked(beast.isBeasted());
+        }
+
+        @Override
+        public void onClick(View v) {
+            Log.d("BeastHolder", beast.getObjective());
         }
     }
 
