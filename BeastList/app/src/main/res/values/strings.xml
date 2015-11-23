@@ -4,4 +4,9 @@
     <string name="beast_objective_label">Objective</string>
     <string name="beast_details_label">Details</string>
     <string name="beasted_label">Beasted</string>
+    <string name="new_beast">New Beast</string>
+    <string name="show_subtitle">Show Subtitle</string>
+    <string name="hide_subtitle">Hide Subtitle</string>
+    <string name="subtitle_format">%1$s beasts</string>
+    <string name="delete_beast">Delete Beast</string>
 </resources>

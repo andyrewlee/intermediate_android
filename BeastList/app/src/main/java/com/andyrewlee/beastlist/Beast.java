@@ -18,9 +18,13 @@ public class Beast {
     private boolean beasted;
 
     public Beast() {
-        id = UUID.randomUUID();
-        createdAt = new Date();
-        beasted = false;
+        this(UUID.randomUUID());
+    }
+
+    public Beast(UUID id) {
+        this.id = id;
+        this.createdAt = new Date();
+        this.beasted = false;
     }
 
     public UUID getId() { return id; }

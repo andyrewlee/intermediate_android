@@ -9,9 +9,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +28,27 @@ import java.util.UUID;
 public class BeastListFragment extends Fragment {
     private RecyclerView beastListRecyclerView;
     private BeastAdapter adapter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.menu_item_new_beast:
+                Beast beast = new Beast();
+                BeastsFactory.get(getActivity()).addBeast(beast);
+                Intent intent = BeastPagerActivity.newIntent(getActivity(), beast.getId());
+                startActivity(intent);
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Nullable
     @Override
@@ -42,6 +67,12 @@ public class BeastListFragment extends Fragment {
         updateUI();
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_beast_list, menu);
+    }
+
     private void updateUI() {
         BeastsFactory beastsFactory = BeastsFactory.get(getActivity());
         List<Beast> beasts = beastsFactory.all();
@@ -50,11 +81,12 @@ public class BeastListFragment extends Fragment {
             adapter = new BeastAdapter(beasts);
             beastListRecyclerView.setAdapter(adapter);
         } else {
+            adapter.setBeasts(beasts);
             adapter.notifyDataSetChanged();
         }
     }
 
-    private class BeastHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    private class BeastHolder extends RecyclerView.ViewHolder implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
         private TextView objectiveTextView;
         private TextView createdAtTextView;
         private CheckBox beastedCheckBox;
@@ -68,6 +100,8 @@ public class BeastListFragment extends Fragment {
             objectiveTextView = (TextView) itemView.findViewById(R.id.cell_beast_objective);
             createdAtTextView = (TextView) itemView.findViewById(R.id.cell_beast_created_at);
             beastedCheckBox = (CheckBox) itemView.findViewById(R.id.cell_beasted_check_box);
+
+            beastedCheckBox.setOnCheckedChangeListener(this);
         }
 
         public void bindBeast(Beast beast) {
@@ -80,9 +114,14 @@ public class BeastListFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            Log.d("BeastHolder", beast.getObjective());
-            Intent intent = BeastDetailActivity.newIntent(getActivity(), beast.getId());
+            Intent intent = BeastPagerActivity.newIntent(getActivity(), beast.getId());
             startActivity(intent);
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            beast.setBeasted(isChecked);
+            BeastsFactory.get(getActivity()).updateBeast(beast);
         }
     }
 
@@ -110,6 +149,10 @@ public class BeastListFragment extends Fragment {
         @Override
         public int getItemCount() {
             return beasts.size();
+        }
+
+        public void setBeasts(List<Beast> beasts) {
+            this.beasts = beasts;
         }
     }
 }

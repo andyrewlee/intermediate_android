@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -24,6 +25,7 @@ public class BeastDetailFragment extends Fragment {
     private EditText objectiveEditText;
     private TextView createdAtTextView;
     private CheckBox beastedCheckBox;
+    private Button deleteBeastButton;
 
     public static BeastDetailFragment newInstance(UUID beastId) {
         Bundle args = new Bundle();
@@ -40,6 +42,13 @@ public class BeastDetailFragment extends Fragment {
 
         UUID beastId = (UUID) getArguments().getSerializable("beastId");
         beast = BeastsFactory.get(getActivity()).find(beastId);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        BeastsFactory.get(getActivity()).updateBeast(beast);
     }
 
     @Nullable
@@ -65,6 +74,7 @@ public class BeastDetailFragment extends Fragment {
 
             }
         });
+
         createdAtTextView = (TextView) view.findViewById(R.id.beast_created_at);
         createdAtTextView.setText(beast.getCreatedAt().toString());
 
@@ -75,6 +85,16 @@ public class BeastDetailFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 beast.setBeasted(isChecked);
+            }
+        });
+
+        deleteBeastButton = (Button) view.findViewById(R.id.delete_beast);
+
+        deleteBeastButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BeastsFactory.get(getActivity()).destroy(beast);
+                getActivity().finish();
             }
         });
 
