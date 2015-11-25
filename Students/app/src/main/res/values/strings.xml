@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Students</string>
+    <string name="delete_student_button">Delete</string>
+</resources>
