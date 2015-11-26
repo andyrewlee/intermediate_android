@@ -47,4 +47,8 @@ public class WordsFactory {
         }
         return null;
     }
+
+    public void addWord(Word word) {
+        words.add(word);
+    }
 }

@@ -8,6 +8,10 @@ public class Word {
     private String definition;
     private String notes;
 
+    public Word() {
+        this("", "");
+    }
+
     public Word(String word, String definition) {
         this.word = word;
         this.definition = definition;
