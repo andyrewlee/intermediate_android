@@ -10,11 +10,7 @@ public class Student {
     private String name;
 
     public Student() {
-        this(UUID.randomUUID());
-    }
-
-    public Student(UUID id) {
-        this.uuid = id;
+        this.uuid = UUID.randomUUID();
     }
 
     public UUID getUuid() {
