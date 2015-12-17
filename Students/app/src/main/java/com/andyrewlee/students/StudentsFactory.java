@@ -22,12 +22,6 @@ public class StudentsFactory {
 
     public StudentsFactory(Context context) {
         students = new ArrayList<>();
-
-        for(int i = 0; i < 50; i++) {
-            Student s = new Student();
-            s.setName("Name " + i);
-            students.add(s);
-        }
     }
 
     public List<Student> getStudents() {

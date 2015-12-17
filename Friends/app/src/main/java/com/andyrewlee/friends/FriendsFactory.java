@@ -20,17 +20,32 @@ public class FriendsFactory {
         return friendsFactory;
     }
 
+    public Friend getFriend(UUID id) {
+        for(Friend friend : friends) {
+            if(friend.getId().equals(id)) {
+                return friend;
+            }
+        }
+        return null;
+    }
+
     public FriendsFactory(Context context) {
         friends = new ArrayList<>();
-
-        for (int i = 0; i < 50; i++) {
-            Friend f = new Friend();
-            f.setName("Name " + i);
-            friends.add(f);
-        }
     }
 
     public List<Friend> getFriends() {
         return friends;
+    }
+
+    public void addFriend(Friend newFriend) {
+        friends.add(newFriend);
+    }
+
+    public void deleteFriend(UUID id) {
+        for(int i = 0; i < friends.size(); i++) {
+            if(friends.get(i).getId().equals(id)) {
+                friends.remove(i);
+            }
+        }
     }
 }

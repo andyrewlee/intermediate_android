@@ -7,6 +7,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -27,12 +30,39 @@ public class FriendsListFragment extends Fragment {
         if(adapter == null) {
             adapter = new FriendsAdapter(friends);
             friendsListRecyclerView.setAdapter(adapter);
+        } else {
+            adapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_friends_list, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.menu_item_new_friend:
+                Friend friend = new Friend();
+                FriendsFactory.get(getActivity()).addFriend(friend);
+                Intent intent = FriendDetailActivity.newIntent(getActivity(), friend.getId());
+                startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Nullable
@@ -75,18 +105,25 @@ public class FriendsListFragment extends Fragment {
         }
     }
 
-    private class FriendHolder extends RecyclerView.ViewHolder {
+    private class FriendHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private Friend friend;
         private TextView nameTextView;
 
         public FriendHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             nameTextView = (TextView) itemView.findViewById(R.id.friend_name);
         }
 
         public void bindFriend(Friend friend) {
             this.friend = friend;
             nameTextView.setText(friend.getName());
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = FriendDetailActivity.newIntent(getActivity(), friend.getId());
+            startActivity(intent);
         }
     }
 }
